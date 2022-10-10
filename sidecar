@@ -30,4 +30,11 @@ spec:
     volumeMounts:
     - name: varlog
       mountPath: /usr/share/nginx/html
+
+--- 
+k exec sidecar -c sidecar -- curl localhost /usr/share/nginx/html/index.html
+
+ k exec sidecar -c main -- cat /var/log/index.html
+ 
+
                                                                                  
