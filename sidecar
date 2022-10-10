@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar
+spec:
+  volumes:
+  - name: varlog
+    emptyDir: {}
+  containers:
+  - name: main
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - >
+      i=0;
+      while true;
+      do
+        echo "Hi I am from Main container" >> /var/log/index.html
+        i=$((i+1));
+        sleep 5;
+      done
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  - name: sidecar
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: varlog
+      mountPath: /usr/share/nginx/html
+                                                                                 
